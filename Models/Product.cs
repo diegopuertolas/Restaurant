@@ -1,4 +1,4 @@
-namespace Models;
+namespace Restaurant.Models;
 
 public abstract class Product
 {
