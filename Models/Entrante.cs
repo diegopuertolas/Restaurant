@@ -14,6 +14,6 @@ public class Entrante : Product
 
     public override void ShowDescription()
     {
-        Console.WriteLine($"Nombre: {Name} - Price: {Price} - Ración para {SharedBy} personas - {(IsCold ? "Frío" : "Caliente")}");
+        Console.WriteLine($"Nombre: {Name} - Precio: {Price} - Ración para {SharedBy} personas - {(IsCold ? "Frío" : "Caliente")}");
     }
 }
