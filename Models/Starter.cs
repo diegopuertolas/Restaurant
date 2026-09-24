@@ -1,11 +1,11 @@
 namespace Restaurant.Models;
 
-public class Entrante : Product
+public class Starter : Product
 {
     public int SharedBy { get; set; }
     public bool IsCold { get; set; }
 
-    public Entrante(string name, decimal price, int sharedBy, bool isCold) 
+    public Starter(string name, decimal price, int sharedBy, bool isCold) 
         : base(name, price)
     {
         SharedBy = sharedBy;
