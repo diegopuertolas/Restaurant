@@ -21,10 +21,20 @@ var restaurantMenu = new List<Product>
     calamares
 };
 
-Console.WriteLine("=== CARTA ===");
+var index = 1;
+
+Console.WriteLine("=== CARTA USANDO FOREACH ===");
 foreach (var product in restaurantMenu)
-{
+{   
+    Console.Write($"{index}. ");
     product.ShowDescription();
+    index++;
 }
+Console.WriteLine();
 
-
+Console.WriteLine("=== CARTA USANDO FOR ===");
+for (var i = 0; i <= restaurantMenu.Count; i++)
+{
+    Console.Write($"{i + 1}. ");
+    restaurantMenu[i].ShowDescription();
+}
