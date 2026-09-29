@@ -1,10 +1,30 @@
 ﻿using Restaurant.Models;
 
-// Creamos tres entrantes y mostramos la descripción de cada uno.
+var cocacola = new Drink("Cocacola", 2m, false);
+var cervezaAmbar = new Drink("1/3 Ambar", 1.80m, true);
+var solomillo = new PrincipalDish("Solomillo", 15.99m, ["Solomillo", "Patatas", "Ensaladas"]);
+var entrecot = new PrincipalDish("Entrecot", 15.99m, ["Entrecot", "Patatas", "Pimientos"]);
+var tartaQueso = new Dessert("Tarta Queso", 6.99m, true);
+var helado = new Dessert("Helado Magnum", 1.50m, true);
 var bravas = new Starter("Patatas Bravas", 5.99m, 2, false);
 var calamares = new Starter("Calamares", 8.99m, 2, false);
-var ensaladillaRusa = new Starter("Ensaladilla Rusa", 7.99m, 1, true);
 
-bravas.ShowDescription();
-calamares.ShowDescription();
-ensaladillaRusa.ShowDescription();
+var restaurantMenu = new List<Product>
+{
+    cocacola,
+    cervezaAmbar,
+    solomillo,
+    entrecot,
+    tartaQueso,
+    helado,
+    bravas,
+    calamares
+};
+
+Console.WriteLine("=== CARTA ===");
+foreach (var product in restaurantMenu)
+{
+    product.ShowDescription();
+}
+
+
