@@ -83,7 +83,10 @@ Tarta de queso - 5 €
 Responder:
 
 1. ¿Por qué una `List<Producto>` puede contener objetos de tipo `Bebida`, `Postre`, `PlatoPrincipal` o `Entrante`?
+Porque 'Producto' es la clase base de la que heredan todas ellas.'Bebida', 'Postre', 'PlatoPrincipal' y 'Entrante' heredan de esta clase.
+
 2. ¿Qué relación existe entre estas clases y `Producto`?
+Bebida', 'Postre', 'PlatoPrincipal' y 'Entrante' son de tipo 'Producto'.
 
 ---
 
@@ -124,8 +127,13 @@ Mostrar la descripción completa de cada bebida encontrada.
 Responder:
 
 1. ¿Qué tipo tiene la variable utilizada para recorrer la `List<Producto>`?
+La variable será de tipo Producto, ya que al final la lista está formada por Productos.
+
 2. ¿Puede esa variable contener un objeto cuyo tipo real sea `Bebida`?
+Sí, ya que un objeto de tipo 'Bebida' es al fin y al cabo un 'Producto'. 
+
 3. ¿Qué permite comprobar el operador `is`?
+El operador 'is' permite comprobar si un objeto es compatible con un tipo determinado. Devuelve un valor booleano y si la referencia es null, se evalúa en false.
 
 ---
 
@@ -146,11 +154,22 @@ Console.WriteLine(producto3.ObtenerDescripcion());
 Sin ejecutar inicialmente el programa, responder:
 
 1. ¿Cuál es el tipo de la variable `producto1`?
+La variable 'producto1' es de tipo Producto.
+
 2. ¿Cuál es el tipo real del objeto almacenado en `producto1`?
+El tipo real del objeto almacenado en 'producto1' es 'Bebida'.
+
 3. ¿Qué implementación de `ObtenerDescripcion()` se ejecutará?
+Para 'producto1' se ejecutará el método 'ObtenerDescripcion() sobreescrito por la clase 'Bebida'.
+
 4. ¿Qué ocurrirá con `producto2`?
+Para 'producto2' se ejecutará el método 'ObtenerDescripcion() sobreescrito por la clase 'Postre'.
+
 5. ¿Qué ocurrirá con `producto3`?
+Para 'producto3' se ejecutará el método 'ObtenerDescripcion() sobreescrito por la clase 'Entrante'.
+
 6. ¿Qué concepto de programación orientada a objetos permite este comportamiento?
+El concepto se llama Polimorfismo.
 
 Después de responder, ejecutar el código y comprobar el resultado.
 
@@ -169,8 +188,9 @@ Para cada caso indicar:
 ### A
 
 ```csharp
-Producto producto = new Producto(...);
+Producto producto = new Producto(...); 
 ```
+No compilaría ya que no es posible instanciar una clase abstracta.
 
 ### B
 
@@ -178,12 +198,14 @@ Producto producto = new Producto(...);
 Bebida bebida = new Bebida(...);
 Producto producto = bebida;
 ```
+Compilaría, ya que le estamos pasando a producto la referencia de un objeto de tipo 'Bebida'. 
 
 ### C
 
 ```csharp
 Producto producto = new Bebida(...);
 ```
+Compilaría, ya que le estamos asignando a producto la referencia de la clase 'Bebida'.
 
 ### D
 
@@ -191,6 +213,9 @@ Producto producto = new Bebida(...);
 Producto producto = new Bebida(...);
 Bebida bebida = producto;
 ```
+
+No compilaría, ya que el compilador solo mira los tipos estáticos, la variable 'producto' es de tipo 'Producto', no se puede
+igualar una variable de tipo 'Producto' con una de tipo 'Bebida'.
 
 ### E
 
@@ -201,6 +226,7 @@ productos.Add(new Bebida(...));
 productos.Add(new Postre(...));
 productos.Add(new Entrante(...));
 ```
+Compilaría, ya que esas clases 'Bebida', 'Postre' y 'Entrante' son de tipo 'Producto'.
 
 ### F
 
@@ -208,6 +234,12 @@ productos.Add(new Entrante(...));
 Producto producto = new Bebida(...);
 
 Console.WriteLine(producto.ObtenerDescripcion());
+```
+
+Si ObtenerDescripcion() retorna un string, se permite así su llamada dentro de Console.WriteLine(...). Si este método estuviera definido con tipo de retorno void, el Console.WriteLine(producto.ObtenerDescripcion()) provocaría un error de compilación, ya que no es posible pasar un tipo void como parámetro. Para que funcione tal como se plantea, el método debe tener como firma: 
+ 
+```csharp
+public override string ObtenerDescripcion().
 ```
 
 Después de responder, comprobar los resultados ejecutando los fragmentos necesarios.
