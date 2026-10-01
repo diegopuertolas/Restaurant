@@ -26,7 +26,7 @@ Console.WriteLine("=== Carta ===");
 
 var position = 1;
 foreach (var product in restaurantMenu)
-{   
+{
     Console.Write($"{position}: ");
     position++;
     product.ShowDescription();
@@ -36,15 +36,28 @@ Console.WriteLine();
 Console.Write("Eliga un producto: ");
 var entry = Console.ReadLine();
 
-if (!int.TryParse(entry, out int number))
+if (string.IsNullOrWhiteSpace(entry))
 {
-    Console.WriteLine("Debes introducir un número entero.");
-} else if (number > restaurantMenu.Count || number <= 0)
+    Console.WriteLine("Debes escribir el nombre de un producto.");
+    return;
+}
+
+var entryModified = entry.Trim().ToLower();
+
+var found = false;
+foreach (var product in restaurantMenu)
 {
-    Console.WriteLine("Ese producto no existe.");
-} else 
+
+    if (entryModified.Equals(product.Name.Trim().ToLower()))
+    {
+        Console.Write("Has elegido: ");
+        product.ShowDescription();
+        found = true;
+        break;
+    }
+}
+
+if (!found)
 {
-    number--;
-    Console.Write("Has elegido: ");
-    restaurantMenu[number].ShowDescription();
+    Console.WriteLine("No existe ese producto.");
 }
