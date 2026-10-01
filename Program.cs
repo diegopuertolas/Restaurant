@@ -23,8 +23,12 @@ var restaurantMenu = new List<Product>
 
 
 Console.WriteLine("=== Carta ===");
+
+var position = 1;
 foreach (var product in restaurantMenu)
 {   
+    Console.Write($"{position}: ");
+    position++;
     product.ShowDescription();
 }
 
@@ -34,10 +38,13 @@ var entry = Console.ReadLine();
 
 if (!int.TryParse(entry, out int number))
 {
-    Console.WriteLine("Debes introducir un número.");
+    Console.WriteLine("Debes introducir un número entero.");
+} else if (number > restaurantMenu.Count || number <= 0)
+{
+    Console.WriteLine("Ese producto no existe.");
 } else 
 {
+    number--;
     Console.Write("Has elegido: ");
     restaurantMenu[number].ShowDescription();
 }
-
