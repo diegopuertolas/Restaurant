@@ -22,11 +22,22 @@ var restaurantMenu = new List<Product>
 };
 
 
-Console.WriteLine("=== FILTRADO POR TIPO ===");
+Console.WriteLine("=== Carta ===");
 foreach (var product in restaurantMenu)
 {   
-    if (product is Drink)
-    {
-        product.ShowDescription();
-    }
+    product.ShowDescription();
 }
+
+Console.WriteLine();
+Console.Write("Eliga un producto: ");
+var entry = Console.ReadLine();
+
+if (!int.TryParse(entry, out int number))
+{
+    Console.WriteLine("Debes introducir un número.");
+} else 
+{
+    Console.Write("Has elegido: ");
+    restaurantMenu[number].ShowDescription();
+}
+
