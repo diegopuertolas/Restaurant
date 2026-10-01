@@ -21,43 +21,26 @@ var restaurantMenu = new List<Product>
     calamares
 };
 
+Console.Write("Precio Máximo: ");
+var maxPrice = Console.ReadLine();
 
-Console.WriteLine("=== Carta ===");
-
-var position = 1;
-foreach (var product in restaurantMenu)
+if (!decimal.TryParse(maxPrice, out decimal price))
 {
-    Console.Write($"{position}: ");
-    position++;
-    product.ShowDescription();
-}
-
-Console.WriteLine();
-Console.Write("Eliga un producto: ");
-var entry = Console.ReadLine();
-
-if (string.IsNullOrWhiteSpace(entry))
-{
-    Console.WriteLine("Debes escribir el nombre de un producto.");
+    Console.WriteLine("Debes introducir un decimal.");
     return;
 }
-
-var entryModified = entry.Trim().ToLower();
 
 var found = false;
 foreach (var product in restaurantMenu)
 {
-
-    if (entryModified.Equals(product.Name.Trim().ToLower()))
+    if (product.Price <= price)
     {
-        Console.Write("Has elegido: ");
         product.ShowDescription();
         found = true;
-        break;
     }
 }
 
 if (!found)
 {
-    Console.WriteLine("No existe ese producto.");
+    Console.WriteLine("No se han encontrado productos.");
 }
