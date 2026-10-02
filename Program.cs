@@ -21,15 +21,13 @@ var restaurantMenu = new List<Product>
     calamares
 };
 
-var mostExpesinve = restaurantMenu[0];
+ShowMenu(restaurantMenu);
 
-foreach (var product in restaurantMenu)
+static void ShowMenu(List<Product> menu)
 {
-    if (product.Price > mostExpesinve.Price)
+    Console.WriteLine("=== CARTA ===");
+    foreach (var product in menu)
     {
-        mostExpesinve = product;
+        product.ShowDescription();
     }
 }
-
-Console.WriteLine("=== Producto más caro ===");
-mostExpesinve.ShowDescription();
