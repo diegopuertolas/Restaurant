@@ -21,20 +21,67 @@ var restaurantMenu = new List<Product>
     calamares
 };
 
-ShowMenu(restaurantMenu);
-Console.WriteLine();
+var option = -1;
+do
+{   
+    ShowOptions();
+    option = ChooseOption();
 
-ChooseProduct(restaurantMenu);
-Console.WriteLine();
+    switch (option)
+    {
+        case 1:
+            Console.WriteLine(); 
+            ShowMenu(restaurantMenu);
+            break;
+        case 2:
+            Console.WriteLine();
+            ChooseProduct(restaurantMenu);
+            break;
+        case 3:
+            Console.WriteLine();
+            SearchProduct(restaurantMenu);
+            break;
+        case 4:
+            Console.WriteLine();
+            ProductsPerPrice(restaurantMenu);
+            break;
+        case 5:
+            Console.WriteLine();
+            MostExpensiveProduct(restaurantMenu);
+            break;
+        case 0:
+            Console.WriteLine("Saliendo del programa...");
+            break;
+        default:
+            Console.WriteLine("\nOpción no válida. Incluya un número del  al 5.");
+            break;
+    }
+} while (option != 0);
 
-SearchProduct(restaurantMenu);
-Console.WriteLine();
+static void ShowOptions()
+{  
+    Console.WriteLine("\n=================");
+    Console.WriteLine("   RESTAURANTE   ");
+    Console.WriteLine("=================");
+    Console.WriteLine("\n1. Ver carta");
+    Console.WriteLine("2. Elegir producto");
+    Console.WriteLine("3. Buscar producto");
+    Console.WriteLine("4. Productos por precio");
+    Console.WriteLine("5. Producto más caro");
+    Console.WriteLine("0. Salir");
+    Console.Write("\nElige una opción: ");   
+}
 
-ProductsPerPrice(restaurantMenu);
-Console.WriteLine();
+static int ChooseOption()
+{
+    var input = Console.ReadLine();
 
-MostExpensiveProduct(restaurantMenu);
-
+    if (!int.TryParse(input, out int decision))
+    {
+        return -1;
+    }        
+    return decision;
+}
 
 static void ShowMenu(List<Product> menu)
 {
@@ -51,7 +98,7 @@ static void ShowMenu(List<Product> menu)
 static void ChooseProduct(List<Product> menu)
 {
     ShowMenu(menu);
-    Console.Write("Eliga un producto: ");
+    Console.Write("\nEliga un producto: ");
     var input = Console.ReadLine();
     if (!int.TryParse(input, out int decision) || decision < 1 || decision > menu.Count)
     {
@@ -64,7 +111,7 @@ static void ChooseProduct(List<Product> menu)
 static void SearchProduct(List<Product> menu)
 {
     ShowMenu(menu);
-    Console.Write("Busca un producto: ");
+    Console.Write("\nBusca un producto: ");
     var input = Console.ReadLine();
 
     if (string.IsNullOrWhiteSpace(input))
@@ -80,7 +127,7 @@ static void SearchProduct(List<Product> menu)
     {
         if (inputModified.Equals(product.Name.Trim().ToLower()))
         {
-            Console.Write("Has elegido: ");
+            Console.Write("\nHas elegido: ");
             product.ShowDescription();
             found = true;
             break;
@@ -95,8 +142,9 @@ static void SearchProduct(List<Product> menu)
 
 static void ProductsPerPrice(List<Product> menu)
 {
-    menu.Sort((a, b) => a.Price.CompareTo(b.Price));
-    foreach (var product in menu)
+    var sortedMenu = new List<Product>(menu);
+    sortedMenu.Sort((a, b) => a.Price.CompareTo(b.Price));
+    foreach (var product in sortedMenu)
     {
         product.ShowDescription();
     }
@@ -104,16 +152,16 @@ static void ProductsPerPrice(List<Product> menu)
 
 static void MostExpensiveProduct(List<Product> menu)
 {
-    var mostExpesinve = menu[0];
+    var mostExpensive = menu[0];
 
     foreach (var product in menu)
     {
-        if (product.Price > mostExpesinve.Price)
+        if (product.Price > mostExpensive.Price)
         {
-            mostExpesinve = product;
+            mostExpensive = product;
         }
     }
 
     Console.WriteLine("=== Producto más caro ===");
-    mostExpesinve.ShowDescription();
+    mostExpensive.ShowDescription();
 }
