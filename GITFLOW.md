@@ -18,7 +18,7 @@ En un proyecto .NET no deben versionarse los archivos generados durante la compi
 
 Como mínimo, deberán excluirse:
 
-```gitignore
+```gitignore 
 bin/
 obj/
 .vs/
@@ -95,7 +95,7 @@ git commit -m "Proyecto inicial del restaurante"
 
 Volver a comprobar:
 
-```bash
+```bash 
 git status
 ```
 
@@ -134,7 +134,7 @@ El flujo general será:
 
 ```text 
 feature/* ──────┐
-feature/* ──────┼──> develop ──> release/* ──> main
+feature/* ──────┼──> develop ──> main
 feature/* ──────┘
 ```
 
@@ -413,43 +413,13 @@ git branch -d feature/pedidos
 
 ---
 
-# 11. Release
-
-Cuando las funcionalidades previstas estén terminadas e integradas en `develop`, crear una rama de preparación de versión.
-
-Por ejemplo:
-
-```bash 
-git switch develop
-git switch -c release/1.0.0
-```
-
-La rama `release` se utilizará para:
-
-- Probar el funcionamiento completo de la aplicación.
-- Corregir errores.
-- Revisar validaciones.
-- Revisar textos mostrados al usuario.
-- Comprobar que el proyecto compila correctamente.
-
-No se utilizará para desarrollar funcionalidades nuevas de gran tamaño.
-
-Si se realizan correcciones:
-
-```bash 
-git add .
-git commit -m "Corregida validación del menú"
-```
-
----
-
-# 12. Publicar la versión
+# 11. Publicar la versión
 
 Cuando la versión esté preparada:
 
 ```bash 
 git switch main
-git merge release/1.0.0
+git merge develop
 ```
 
 Crear una etiqueta para identificar la versión:
@@ -458,30 +428,15 @@ Crear una etiqueta para identificar la versión:
 git tag v1.0.0
 ```
 
-Los cambios realizados durante la preparación de la versión también deben volver a `develop`:
-
-```bash 
-git switch develop
-git merge release/1.0.0
-```
-
-Finalmente:
-
-```bash 
-git branch -d release/1.0.0
-```
-
 El resultado será:
 
 ```text 
-feature/* ──> develop ──> release/1.0.0 ──> main
-                            |
-                            └──────────────> develop
+feature/* ──> develop ──> main
 ```
 
 ---
 
-# 13. Repositorio remoto
+# 12. Repositorio remoto
 
 Si se utiliza GitHub, GitLab u otro repositorio remoto, las ramas pueden publicarse durante el desarrollo.
 
@@ -513,7 +468,7 @@ git push origin --tags
 
 ---
 
-# 14. Flujo habitual de trabajo
+# 13. Flujo habitual de trabajo
 
 ## Crear una funcionalidad
 
@@ -552,7 +507,7 @@ git switch -c feature/otra-funcionalidad
 
 ---
 
-# 15. Qué debe evitarse
+# 14. Qué debe evitarse
 
 No desarrollar directamente sobre:
 
@@ -582,7 +537,7 @@ Evitar crear una nueva `feature` partiendo de otra `feature`. Las nuevas funcion
 
 ---
 
-# 16. Entrega del proyecto
+# 15. Entrega del proyecto
 
 La entrega incluirá:
 
@@ -626,7 +581,7 @@ Antes de entregar, comprobar que el proyecto incluido en el ZIP puede abrirse y 
 
 ---
 
-# 17. Comprobación final
+# 16. Comprobación final
 
 Antes de entregar, revisar:
 
@@ -640,7 +595,6 @@ Antes de entregar, revisar:
 - Los mensajes de commit describen los cambios realizados.
 - No se ha desarrollado directamente en `main`.
 - Las funcionalidades terminadas se han integrado en `develop`.
-- Se ha preparado una versión mediante `release/1.0.0`.
 - La versión estable se encuentra en `main`.
 - Existe la etiqueta `v1.0.0`.
 - El proyecto compila y funciona correctamente.
@@ -657,7 +611,6 @@ Antes de entregar, revisar:
 | `main` | Versiones estables |
 | `develop` | Desarrollo integrado |
 | `feature/*` | Desarrollo de funcionalidades |
-| `release/*` | Preparación de una versión |
 | `hotfix/*` | Correcciones urgentes sobre una versión publicada |
 
 Para esta práctica se utilizarán principalmente:
@@ -666,15 +619,12 @@ Para esta práctica se utilizarán principalmente:
 main
 develop
 feature/*
-release/*
 ```
 
 Flujo general:
 
 ```text 
 main
-  ↑
-release/1.0.0
   ↑
 develop
   ↑
