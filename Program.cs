@@ -60,6 +60,10 @@ do
             Console.WriteLine();
             ProductsPerPrice(restaurantMenu);
             break;
+        case 8:
+            Console.WriteLine();
+            MostExpensiveProduct(restaurantMenu);
+            break;
         case 0:
             Console.WriteLine("Saliendo del programa...");
             break;
@@ -81,6 +85,7 @@ static void ShowOptions()
     Console.WriteLine("5. Terminar pedido.");
     Console.WriteLine("6. Buscar producto");
     Console.WriteLine("7. Producto por precio");
+    Console.WriteLine("8. Producto más caro");
     Console.WriteLine("0. Salir");
     Console.Write("\nElige una opción: ");   
 }
