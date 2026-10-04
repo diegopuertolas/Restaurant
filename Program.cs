@@ -1,4 +1,5 @@
-﻿using Restaurant.Models;
+﻿using System.Security.Cryptography;
+using Restaurant.Models;
 
 var cocacola = new Drink("Cocacola", 2m, false);
 var cervezaAmbar = new Drink("1/3 Ambar", 1.80m, true);
@@ -49,9 +50,13 @@ do
             break;
         case 5:
             Console.WriteLine();
-            SearchProduct(restaurantMenu);
+            EndOrder(order);
             break;
         case 6:
+            Console.WriteLine();
+            SearchProduct(restaurantMenu);
+            break;
+        case 7:
             Console.WriteLine();
             ProductsPerPrice(restaurantMenu);
             break;
@@ -73,8 +78,9 @@ static void ShowOptions()
     Console.WriteLine("2. Añadir productos al pedido");
     Console.WriteLine("3. Ver pedido");
     Console.WriteLine("4. Eliminar producto del pedido");
-    Console.WriteLine("5. Buscar producto");
-    Console.WriteLine("6. Producto por precio");
+    Console.WriteLine("5. Terminar pedido.");
+    Console.WriteLine("6. Buscar producto");
+    Console.WriteLine("7. Producto por precio");
     Console.WriteLine("0. Salir");
     Console.Write("\nElige una opción: ");   
 }
@@ -169,6 +175,28 @@ static void DeleteProductInOrder(List<Product> order)
     var product = ChooseProductInOrder(order);
     order.Remove(product);
     Console.WriteLine($"{product.Name} eliminado del pedido.");
+}
+
+static void EndOrder(List<Product> order)
+{
+    if (order.Count == 0)
+    {
+        Console.WriteLine("No se puede cerrar el ticket, el pedido está vacio.");
+        return;
+    }
+
+    Console.WriteLine("=== TICKET ===");
+    var sum = 0m;
+    foreach (var product in order)
+    {
+        Console.WriteLine($"{product.Name}   {product.Price}");
+        sum += product.Price;
+    }
+    Console.WriteLine("\n-----------");
+    Console.WriteLine($"Productos:  {order.Count}");
+    Console.WriteLine($"TOTAL:      {sum}");
+
+    order.Clear();
 }
 
 static void SumProductPrice(List<Product> menu)
