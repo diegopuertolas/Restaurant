@@ -21,6 +21,8 @@ var restaurantMenu = new List<Product>
     calamares
 };
 
+var order = new List<Product>();
+
 var option = -1;
 do
 {   
@@ -35,17 +37,29 @@ do
             break;
         case 2:
             Console.WriteLine();
-            ChooseProduct(restaurantMenu);
+            AddProductToOrder(restaurantMenu, order);
             break;
         case 3:
             Console.WriteLine();
-            SearchProduct(restaurantMenu);
+            ShowOrder(order);
             break;
         case 4:
             Console.WriteLine();
-            ProductsPerPrice(restaurantMenu);
+            DeleteProductInOrder(order);
             break;
         case 5:
+            Console.WriteLine();
+            EndOrder(order);
+            break;
+        case 6:
+            Console.WriteLine();
+            SearchProduct(restaurantMenu);
+            break;
+        case 7:
+            Console.WriteLine();
+            ProductsPerPrice(restaurantMenu);
+            break;
+        case 8:
             Console.WriteLine();
             MostExpensiveProduct(restaurantMenu);
             break;
@@ -53,7 +67,7 @@ do
             Console.WriteLine("Saliendo del programa...");
             break;
         default:
-            Console.WriteLine("\nOpción no válida. Incluya un número del  al 5.");
+            Console.WriteLine("\nOpción no válida. Incluya un número del 0 al 8.");
             break;
     }
 } while (option != 0);
@@ -64,10 +78,13 @@ static void ShowOptions()
     Console.WriteLine("   RESTAURANTE   ");
     Console.WriteLine("=================");
     Console.WriteLine("\n1. Ver carta");
-    Console.WriteLine("2. Elegir producto");
-    Console.WriteLine("3. Buscar producto");
-    Console.WriteLine("4. Productos por precio");
-    Console.WriteLine("5. Producto más caro");
+    Console.WriteLine("2. Añadir productos al pedido");
+    Console.WriteLine("3. Ver pedido");
+    Console.WriteLine("4. Eliminar producto del pedido");
+    Console.WriteLine("5. Terminar pedido.");
+    Console.WriteLine("6. Buscar producto");
+    Console.WriteLine("7. Producto por precio");
+    Console.WriteLine("8. Producto más caro");
     Console.WriteLine("0. Salir");
     Console.Write("\nElige una opción: ");   
 }
@@ -95,17 +112,114 @@ static void ShowMenu(List<Product> menu)
     }
 }
 
-static void ChooseProduct(List<Product> menu)
+static void ShowOrder(List<Product> order)
+{
+    if (order.Count == 0)
+    {
+        Console.WriteLine("El pedido está vacío.");
+    }
+    else
+    {
+        Console.WriteLine("=== Pedido ===");
+        var position = 1;
+        foreach (var product in order)
+        {
+            Console.Write($"{position++} --> ");
+            Console.WriteLine($"{product.Name}    {product.Price}");
+        }
+        Console.WriteLine("-------------");
+        SumProductPrice(order);
+    }
+}
+
+static Product ChooseProductInMenu(List<Product> menu)
 {
     ShowMenu(menu);
-    Console.Write("\nEliga un producto: ");
-    var input = Console.ReadLine();
-    if (!int.TryParse(input, out int decision) || decision < 1 || decision > menu.Count)
+    
+    while(true) 
     {
-        Console.WriteLine("No hay un producto asignado a este número.");
-    } else {
-        menu[decision - 1].ShowDescription();
+        Console.Write("\nEliga un producto: ");
+        var input = Console.ReadLine();
+        if (int.TryParse(input, out int decision) && decision >= 1 || decision <= menu.Count)
+        {
+            var selectedProduct = menu[decision - 1];
+            selectedProduct.ShowDescription();
+            return selectedProduct;
+        }
+
+        Console.WriteLine($"Opción no válida. Debe introducir un número del 1 al {menu.Count}.");
     }
+}
+
+static Product ChooseProductInOrder(List<Product> order)
+{
+    ShowOrder(order);
+
+    while(true)
+    {
+        Console.Write("\nEliga un producto: ");
+        var input = Console.ReadLine();
+
+        if (int.TryParse(input, out int decision) && decision >= 1 && decision <= order.Count)
+        {
+            var selectedProduct = order[decision - 1];
+            selectedProduct.ShowDescription();
+            return selectedProduct;
+        }
+
+        Console.WriteLine($"Opción no válida. Debe introducir un número del 1 al {order.Count}.");
+    }
+}
+
+static void AddProductToOrder(List<Product> menu, List<Product> order)
+{
+    var product = ChooseProductInOrder(menu);
+    order.Add(product);
+    Console.WriteLine($"{product.Name} añadido al pedido.");
+}
+
+static void DeleteProductInOrder(List<Product> order)
+{
+    if (order.Count == 0)
+    {
+        Console.WriteLine("El pedido está vacio.");
+        return;
+    }
+    var product = ChooseProductInOrder(order);
+    order.Remove(product);
+    Console.WriteLine($"{product.Name} eliminado del pedido.");
+}
+
+static void EndOrder(List<Product> order)
+{
+    if (order.Count == 0)
+    {
+        Console.WriteLine("No se puede cerrar el ticket, el pedido está vacio.");
+        return;
+    }
+
+    Console.WriteLine("=== TICKET ===");
+    var sum = 0m;
+    foreach (var product in order)
+    {
+        Console.WriteLine($"{product.Name}   {product.Price}");
+        sum += product.Price;
+    }
+    Console.WriteLine("\n-----------");
+    Console.WriteLine($"Productos:  {order.Count}");
+    Console.WriteLine($"TOTAL:      {sum}");
+
+    order.Clear();
+}
+
+static void SumProductPrice(List<Product> menu)
+{
+    decimal sum = 0;
+    foreach (var product in menu)
+    {
+        sum += product.Price;
+    }
+    Console.WriteLine($"TOTAL:    {sum}");
 }
 
 static void SearchProduct(List<Product> menu)
