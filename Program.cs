@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using Restaurant.Models;
+﻿using Restaurant.Models;
 
 var cocacola = new Drink("Cocacola", 2m, false);
 var cervezaAmbar = new Drink("1/3 Ambar", 1.80m, true);
@@ -68,7 +67,7 @@ do
             Console.WriteLine("Saliendo del programa...");
             break;
         default:
-            Console.WriteLine("\nOpción no válida. Incluya un número del  al 5.");
+            Console.WriteLine("\nOpción no válida. Incluya un número del 0 al 8.");
             break;
     }
 } while (option != 0);
@@ -136,36 +135,45 @@ static void ShowOrder(List<Product> order)
 static Product ChooseProductInMenu(List<Product> menu)
 {
     ShowMenu(menu);
-    Console.Write("\nEliga un producto: ");
-    var input = Console.ReadLine();
-    if (!int.TryParse(input, out int decision) || decision < 1 || decision > menu.Count)
+    
+    while(true) 
     {
-        Console.WriteLine("No hay un producto asignado a este número.");
-    } else {
-        menu[decision - 1].ShowDescription();
+        Console.Write("\nEliga un producto: ");
+        var input = Console.ReadLine();
+        if (int.TryParse(input, out int decision) && decision >= 1 || decision <= menu.Count)
+        {
+            var selectedProduct = menu[decision - 1];
+            selectedProduct.ShowDescription();
+            return selectedProduct;
+        }
+
+        Console.WriteLine($"Opción no válida. Debe introducir un número del 1 al {menu.Count}.");
     }
-    return menu[decision - 1];
 }
 
 static Product ChooseProductInOrder(List<Product> order)
 {
     ShowOrder(order);
-    Console.Write("\nEliga un producto: ");
-    var input = Console.ReadLine();
-    if (!int.TryParse(input, out int decision) || decision < 0 || decision > order.Count)
+
+    while(true)
     {
-        Console.WriteLine("No hay un producto en el pedido asignado a este número.");
+        Console.Write("\nEliga un producto: ");
+        var input = Console.ReadLine();
+
+        if (int.TryParse(input, out int decision) && decision >= 1 && decision <= order.Count)
+        {
+            var selectedProduct = order[decision - 1];
+            selectedProduct.ShowDescription();
+            return selectedProduct;
+        }
+
+        Console.WriteLine($"Opción no válida. Debe introducir un número del 1 al {order.Count}.");
     }
-    else
-    {
-        order[decision - 1].ShowDescription();
-    }
-    return order[decision - 1];
 }
 
 static void AddProductToOrder(List<Product> menu, List<Product> order)
 {
-    var product = ChooseProductInMenu(menu);
+    var product = ChooseProductInOrder(menu);
     order.Add(product);
     Console.WriteLine($"{product.Name} añadido al pedido.");
 }
