@@ -1,4 +1,5 @@
-﻿using Restaurant.Models;
+﻿using System.Text.Json;
+using Restaurant.Models;
 
 var cocacola = new Drink("Cocacola", 2m, false);
 var cervezaAmbar = new Drink("1/3 Ambar", 1.80m, true);
@@ -22,6 +23,8 @@ var restaurantMenu = new List<Product>
 };
 
 var order = new List<Product>();
+
+var PATH = "order.json";
 
 var option = -1;
 do
@@ -63,6 +66,10 @@ do
             Console.WriteLine();
             MostExpensiveProduct(restaurantMenu);
             break;
+        case 9:
+            Console.WriteLine();
+            SaveOrderJson(order);
+            break;
         case 0:
             Console.WriteLine("Saliendo del programa...");
             break;
@@ -85,6 +92,7 @@ static void ShowOptions()
     Console.WriteLine("6. Buscar producto");
     Console.WriteLine("7. Producto por precio");
     Console.WriteLine("8. Producto más caro");
+    Console.WriteLine("9. Guardar pedido en JSON");
     Console.WriteLine("0. Salir");
     Console.Write("\nElige una opción: ");   
 }
@@ -278,4 +286,10 @@ static void MostExpensiveProduct(List<Product> menu)
 
     Console.WriteLine("=== Producto más caro ===");
     mostExpensive.ShowDescription();
+}
+
+void SaveOrderJson(List<Product> order)
+{
+    var json = JsonSerializer.Serialize(order);
+    File.WriteAllText(PATH, json);
 }
